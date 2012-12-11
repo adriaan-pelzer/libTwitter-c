@@ -128,7 +128,7 @@ static int streamCB(void *uCtx, char **memory, size_t *size) {
 
             /* convert */
             syslog(P_DBG, "Content: %s", first);
-            DOAS("get tweet json struct", parseJson, jS, NULL, first, (const char **) whitelisted_paths, whitelist_size);
+            DOASD("get tweet json struct", parseJson, jS, NULL, first, (const char **) whitelisted_paths, whitelist_size);
 
             if (jS) { DONT("call user callback function on json struct", userCB, 0, uCtx, jS); }
 
