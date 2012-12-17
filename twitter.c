@@ -172,7 +172,7 @@ static int returnCB(void *uCtx, const char *memory, const size_t size) {
 
     rc = 0;
 over:
-    F(_memory);
+    FFF(_memory, free, _memory && (size > 0));
     freeJsonStruct(jS);
     return rc;
 }
