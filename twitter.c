@@ -192,9 +192,7 @@ int callTwitter(cc_p url, connectionType ctype, cc_p c_key, cc_p c_secret, cc_p 
     else
         tCtx->req_url = oauth_sign_url2(tCtx->url, NULL, OA_HMAC, NULL, tCtx->c_key, tCtx->c_secret, tCtx->t_key, tCtx->t_secret);
 
-    DONT("connect", curl_connect, 0, tCtx->req_url, tCtx->ctype, tCtx->postargs, uCtx, returnCB, streamCB);
-
-    rc = 0;
+    rc = curl_connect(tCtx->req_url, tCtx->ctype, tCtx->postargs, uCtx, returnCB, streamCB);
 over:
     FF(tCtx, freeTwitterCtx);
     return rc;
