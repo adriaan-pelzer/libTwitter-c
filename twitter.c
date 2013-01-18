@@ -197,3 +197,24 @@ over:
     FF(tCtx, freeTwitterCtx);
     return rc;
 }
+
+int callTwitter_progress(cc_p url, connectionType ctype, cc_p c_key, cc_p c_secret, cc_p t_key, cc_p t_secret, const char **paths, size_t pathcount, void *uCtx, int (*uCB)(void *uCtx, jsonStruct_p jS), int (*pCB)(void *uCtx)) {
+    int rc = -1;
+    twitterCtx_p tCtx = NULL;
+
+    userCB = uCB;
+    whitelisted_paths = (char **) paths;
+    whitelist_size = pathcount;
+    DOA("allocate memory for twitter context", createTwitterCtx, tCtx, NULL, c_key, c_secret, t_key, t_secret);
+    DONT("set twitter url", setUrl, 0, tCtx, url, ctype);
+
+    if (tCtx->ctype == CONN_POST)
+        tCtx->req_url = oauth_sign_url2(tCtx->url, &tCtx->postargs, OA_HMAC, NULL, tCtx->c_key, tCtx->c_secret, tCtx->t_key, tCtx->t_secret);
+    else
+        tCtx->req_url = oauth_sign_url2(tCtx->url, NULL, OA_HMAC, NULL, tCtx->c_key, tCtx->c_secret, tCtx->t_key, tCtx->t_secret);
+
+    rc = curl_connect_progress(tCtx->req_url, tCtx->ctype, tCtx->postargs, uCtx, returnCB, streamCB, pCB);
+over:
+    FF(tCtx, freeTwitterCtx);
+    return rc;
+}
