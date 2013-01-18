@@ -22,5 +22,6 @@ typedef struct twitterCtx {
 } *twitterCtx_p;
 
 int callTwitter(cc_p url, connectionType ctype, cc_p c_key, cc_p c_secret, cc_p t_key, cc_p t_secret, const char **paths, size_t pathcount, void *uCtx, int (*uCB)(void *uCtx, jsonStruct_p jS));
+int callTwitter_progress(cc_p url, connectionType ctype, cc_p c_key, cc_p c_secret, cc_p t_key, cc_p t_secret, const char **paths, size_t pathcount, void *uCtx, int (*uCB)(void *uCtx, jsonStruct_p jS), int (*pCB)(void *uCtx, double dltotal, double dlnow, double ultotal, double ulnow));
 
 #endif
