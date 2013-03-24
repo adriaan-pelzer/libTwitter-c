@@ -138,6 +138,8 @@ static int streamCB(void *uCtx, char **memory, size_t *size) {
 
             freeJsonStruct(jS); jS = NULL;
         }
+    } else {
+        if (jS) { DONT("call user callback function with NULL json struct (keepalive)", userCB, 0, uCtx, NULL); }
     }
 
     rc = 0;
